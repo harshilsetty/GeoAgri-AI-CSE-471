@@ -65,6 +65,7 @@ def _validated_probability(raw_probability: Any, context: str) -> float:
 
 
 @app.get("/health")
+@app.get("/")
 def health() -> dict[str, Any]:
     return {"ok": True}
 
@@ -112,6 +113,7 @@ async def api_agriculture_recommend_post(request: Request) -> dict[str, Any]:
 
 
 @app.post("/api/predict")
+@app.post("/")
 async def api_predict(request: Request, action: str = Query("predict")):
     action = str(action or "predict").strip().lower()
 

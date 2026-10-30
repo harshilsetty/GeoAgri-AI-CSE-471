@@ -1,0 +1,49 @@
+{
+  "split": "val",
+  "weights": "C:\\Users\\HARSHIL SOMISETTY\\HS\\Education\\LPU\\Academics\\SEM 5\\CSE 471 DEEP LEARNING FOR COMPUTER VISION\\Arch\\GeoAgri-AI\\runs\\obb\\geoagri_yolo11n_obb_v4_class_weighted\\weights\\best.pt",
+  "data": "C:\\Users\\HARSHIL SOMISETTY\\HS\\Education\\LPU\\Academics\\SEM 5\\CSE 471 DEEP LEARNING FOR COMPUTER VISION\\Arch\\GeoAgri-AI\\datasets\\geoagri_obb_v3\\data.yaml",
+  "overall": {
+    "precision": 0.37199335711163184,
+    "recall": 0.4408225239891331,
+    "mAP50": 0.4150142644200289,
+    "mAP50_95": 0.2514272450784173
+  },
+  "per_class": {
+    "boulders": {
+      "precision": 0.29374556136372687,
+      "recall": 0.3281786941580756,
+      "mAP50": 0.21315775598508477,
+      "mAP50_95": 0.09614699252869936
+    },
+    "others": {
+      "precision": 0.4794242710992219,
+      "recall": 0.7647058823529411,
+      "mAP50": 0.7741320441723658,
+      "mAP50_95": 0.4844514974786975
+    },
+    "ruins": {
+      "precision": 0.23695661687328848,
+      "recall": 0.16417910447761194,
+      "mAP50": 0.14428805552359478,
+      "mAP50_95": 0.08243273611687782
+    },
+    "structures": {
+      "precision": 0.4096553220710853,
+      "recall": 0.7711039217749062,
+      "mAP50": 0.7006370841658455,
+      "mAP50_95": 0.4791274160658833
+    },
+    "vegetation": {
+      "precision": 0.4401850141508368,
+      "recall": 0.1759450171821306,
+      "mAP50": 0.2428563822532535,
+      "mAP50_95": 0.11497758320192861
+    }
+  },
+  "speed_ms": {
+    "preprocess": 1.3751137614627797,
+    "inference": 10.205844036701418,
+    "loss": 0.0019522935788933754,
+    "postprocess": 47.95067614678382
+  }
+}

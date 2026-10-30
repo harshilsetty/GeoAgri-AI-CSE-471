@@ -126,6 +126,9 @@ function shouldRequireRemoteBackendInServerless() {
 
 function buildRemotePredictUrl(nextUrl: URL): URL {
   const remoteUrl = new URL(REMOTE_PREDICT_URL);
+  if (remoteUrl.pathname === "/" || remoteUrl.pathname === "") {
+    remoteUrl.pathname = nextUrl.pathname;
+  }
   remoteUrl.search = "";
 
   nextUrl.searchParams.forEach((value, key) => {

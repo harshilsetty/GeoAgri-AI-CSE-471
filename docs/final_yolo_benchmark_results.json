@@ -1,0 +1,28 @@
+{
+  "device": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+  "imgsz": 640,
+  "batch_size": 1,
+  "precision": "FP16 (AMP)",
+  "iterations": 100,
+  "e2e_latency_ms": {
+    "mean": 15.84,
+    "median": 14.49,
+    "p95": 21.99,
+    "p99": 26.46,
+    "min": 11.86,
+    "max": 36.83
+  },
+  "model_only_inference_ms": {
+    "mean": 10.25,
+    "median": 9.4,
+    "p95": 15.84
+  },
+  "preprocess_ms_mean": 1.96,
+  "postprocess_ms_mean": 3.43,
+  "throughput_fps": 63.15,
+  "gpu_memory_mb": {
+    "allocated": 54.23,
+    "reserved": 110.0,
+    "peak_allocated": 77.66
+  }
+}

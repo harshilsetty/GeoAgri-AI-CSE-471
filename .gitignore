@@ -71,3 +71,10 @@ ui/build/
 # Local cache directories
 data/cache/weather/
 data/cache/soil/
+
+# Large ML Weights & Training Runs
+runs/
+datasets/
+*.pt
+weights/
+artifacts/

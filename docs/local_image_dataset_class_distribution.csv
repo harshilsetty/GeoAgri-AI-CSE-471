@@ -1,0 +1,6 @@
+class_id,class_name,train_instances,train_images,train_img_pct,valid_instances,valid_images,valid_img_pct,test_instances,test_images,test_img_pct,total_instances
+0,boulders,3530,162,25.0,200,12,19.67,146,8,25.81,3876
+1,others,1138,276,42.59,137,26,42.62,71,12,38.71,1346
+2,ruins,2116,267,41.2,169,17,27.87,101,11,35.48,2386
+3,structures,186,90,13.89,29,14,22.95,15,5,16.13,230
+4,vegetation,8790,648,100.0,1060,61,100.0,770,31,100.0,10620

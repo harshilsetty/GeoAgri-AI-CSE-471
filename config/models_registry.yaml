@@ -1,0 +1,111 @@
+# GeoAgri-AI Explicit Model Registry
+# Enforces strict separation between production baselines, validation candidates, and experimental checkpoints.
+
+active_models:
+  # The active production model remains the verified baseline until formal promotion approval.
+  production_vision: "yolov8s_archaeology_prod"
+  candidate_vision: "geoagri_yolo11n_obb_v1"
+  production_erosion: "terrain_model/erosion_model.pkl"
+
+models:
+  # Current Production Vision Model (Axis-Aligned Detection Baseline)
+  yolov8s_archaeology_prod:
+    name: "YOLOv8s Archaeology Detection"
+    version: "1.0.0"
+    task: "detection"
+    status: "production"
+    checkpoint_relpath: "runs/detect/yolov8s_archaeology2/weights/best.pt"
+    dataset_version: "archaeological_sites_v1"
+    classes:
+      0: "boulders"
+      1: "others"
+      2: "ruins"
+      3: "structures"
+      4: "vegetation"
+    input_size: 640
+    promoted_at: "2026-10-09"
+    approval_record: "Initial production baseline deployment"
+
+  # Current Validation Candidate (Oriented Bounding Box)
+  geoagri_yolo11n_obb_v1:
+    name: "YOLO11n-OBB Cultural Heritage"
+    version: "2.0.0-rc1"
+    task: "obb"
+    status: "validation_candidate" # Explicitly NOT promoted to production
+    checkpoint_relpath: "runs/obb/geoagri_yolo11n_obb_v1/weights/best.pt"
+    dataset_version: "geoagri_obb_v2"
+    training_epochs_completed: 39
+    classes:
+      0: "boulders"
+      1: "others"
+      2: "ruins"
+      3: "structures"
+      4: "vegetation"
+    input_size: 640
+    test_metrics:
+      mAP50: 0.1412
+      mAP50_95: 0.0713
+      structures_mAP50: 0.0266
+    evaluation_report: "docs/final_yolo_evaluation_report.md"
+    promoted_at: null
+    approval_record: "Requires minority structures class augmentation before production promotion"
+
+  # AGP 10 Geometry-Refitted Experiment (EXP-B)
+  geoagri_yolo11n_obb_v2_refit:
+    name: "YOLO11n-OBB Refit (minAreaRect)"
+    version: "2.1.0-exp-b"
+    task: "obb"
+    status: "experimental"
+    checkpoint_relpath: "runs/obb/geoagri_yolo11n_obb_v2_refit/weights/best.pt"
+    dataset_version: "geoagri_obb_v3"
+    val_metrics:
+      mAP50: 0.4306
+      mAP50_95: 0.2567
+      structures_recall: 0.6389
+    evaluation_report: "docs/agp10_exp_b_validation_report.md"
+    promoted_at: null
+    approval_record: "Experimental baseline for geometry refitting"
+
+  # AGP 10 Domain-Shift Augmentation Experiment (EXP-C)
+  geoagri_yolo11n_obb_v3_aug:
+    name: "YOLO11n-OBB Domain Augmentation"
+    version: "2.2.0-exp-c"
+    task: "obb"
+    status: "experimental"
+    checkpoint_relpath: "runs/obb/geoagri_yolo11n_obb_v3_aug/weights/best.pt"
+    dataset_version: "geoagri_obb_v3"
+    val_metrics:
+      mAP50: 0.4497
+      mAP50_95: 0.2638
+      structures_recall: 0.7222
+    test_metrics:
+      mAP50: 0.1138
+      mAP50_95: 0.0536
+      structures_mAP50: 0.0154
+    evaluation_report: "docs/agp10_final_test_evaluation.md"
+    promoted_at: null
+    approval_record: "Experimental candidate evaluated on held-out test split; held back from production"
+
+  # AGP 11 Class-Weighted Optimization Experiment (EXP-D)
+  geoagri_yolo11n_obb_v4_class_weighted:
+    name: "YOLO11n-OBB Damped Class Weighted"
+    version: "2.3.0-exp-d"
+    task: "obb"
+    status: "experimental"
+    checkpoint_relpath: "runs/obb/geoagri_yolo11n_obb_v4_class_weighted/weights/best.pt"
+    dataset_version: "geoagri_obb_v3"
+    weights: [0.95, 1.41, 1.16, 3.88, 0.56]
+    val_metrics:
+      mAP50: 0.4150
+      mAP50_95: 0.2514
+      structures_recall: 0.7711
+      overall_recall: 0.4408
+    test_metrics:
+      mAP50: 0.1289
+      mAP50_95: 0.0591
+      structures_recall: 0.0716
+      structures_mAP50: 0.0417
+    evaluation_report: "docs/agp11_exp_d_validation_report.md"
+    promoted_at: null
+    approval_record: "Experimental candidate; broke 0.0000 test recall barrier on Nalanda structures"
+

@@ -1,0 +1,19 @@
+Category,Evaluation_Context,V4_Baseline,V5_Production,Delta,Verification_Status
+Multiclass Top-1 Accuracy,Chronological Holdout (2019-2020),18.86%,18.86%,0.00%,TESTED
+Multiclass Top-3 Accuracy,Chronological Holdout (2019-2020),42.12%,42.31%,+0.19%,TESTED
+Multiclass Top-5 Accuracy,Chronological Holdout (2019-2020),59.34%,58.24%,-1.10%,TESTED
+Ranking NDCG@5,Chronological Holdout (2019-2020),0.3899,0.3849,-0.0050,TESTED
+Ranking MRR,Chronological Holdout (2019-2020),0.3705,0.3689,-0.0016,TESTED
+Macro F1-Score,Chronological Holdout (2019-2020),0.1618,0.1614,-0.0004,TESTED
+Geographic Generalization Top-5,10-Fold Spatial Cross-Validation,59.28%,56.83%,-2.45%,REPOSITORY-REPORTED
+Temporal Generalization Top-5,Forward Temporal Split (>=2019),56.41%,58.97%,+2.56%,REPOSITORY-REPORTED
+Spatiotemporal Holdout Top-5,Unseen South Region + Future (2019-2020),40.82%,43.20%,+2.38%,REPOSITORY-REPORTED
+Yield Regressor R^2,Conditioned Test Set,0.954,0.954,0.000,REPOSITORY-REPORTED
+Yield Regressor RMSE (t/ha),Conditioned Test Set,6.377,6.377,0.000,REPOSITORY-REPORTED
+Yield Regressor Median AE (t/ha),Conditioned Test Set,0.3645,0.3645,0.000,REPOSITORY-REPORTED
+Yield Regressor MAPE (%),Conditioned Test Set,76.73%,76.73%,0.00%,REPOSITORY-REPORTED
+Expected Calibration Error (ECE),Uncalibrated Native Softprob,0.1323,0.1323,0.000,REPOSITORY-REPORTED
+Brier Score,Uncalibrated Native Softprob,1.0945,1.0945,0.000,REPOSITORY-REPORTED
+Inference Latency (Single Sample),GPU CUDA XGBoost Core,0.038 ms,0.041 ms,+0.003 ms,TESTED
+Multi-Objective Pareto Engine,Architectural Capability,Not Implemented,Implemented (5 Objectives),New Capability,IMPLEMENTED
+Automated Test Suite Pass Rate,Pytest Regression Suite,38/38 (100%),75/75 (100%),+37 tests,TESTED

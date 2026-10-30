@@ -1,0 +1,653 @@
+{
+  "status": "success",
+  "model": {
+    "name": "crop_intelligence_v5",
+    "version": "v5",
+    "dataset_version": "v1.0",
+    "architecture": "Yield-Aware Agronomic Ranking & Physiological Compatibility Engine",
+    "hardware_device": "NVIDIA GeForce RTX 3050 Laptop GPU (CUDA 13.0)"
+  },
+  "location": {
+    "latitude": 15.335,
+    "longitude": 76.46,
+    "season": "Kharif",
+    "agro_climatic_zone": "black_cotton_vertisol",
+    "zone_description": "Deccan & Central Black Soil Plateau (Maharashtra, MP, Gujarat, Karnataka)"
+  },
+  "soil": {
+    "soil_ph": 7.8,
+    "nitrogen": 175.0,
+    "phosphorus": 14.0,
+    "potassium": 310.0,
+    "organic_carbon": 0.65,
+    "clay": 48.0,
+    "sand": 22.0,
+    "silt": 30.0,
+    "electrical_conductivity": 0.28,
+    "soil_texture_class": "Clay",
+    "agro_climatic_zone": "black_cotton_vertisol",
+    "zone_description": "Deccan & Central Black Soil Plateau (Maharashtra, MP, Gujarat, Karnataka)",
+    "soil_data_source": "soil_health_card_benchmark",
+    "soil_data_quality": "MODERATE",
+    "depth_layer": "0-5cm (physical), 0-15cm (rootzone fertility)"
+  },
+  "weather": {
+    "temperature_current": 25.8,
+    "temperature_mean": 25.8,
+    "temperature_min": 20.2,
+    "temperature_max": 33.5,
+    "temperature_range": 13.3,
+    "humidity_mean": 84.0,
+    "soil_moisture": 0.165,
+    "rainfall_7d": 12.5,
+    "rainfall_14d": 13.0,
+    "rainfall_30d": 27.9,
+    "rainfall_90d": 83.6,
+    "forecast_rainfall_7d": 6.2,
+    "forecast_precip_probability": 95.0,
+    "et0": 5.1,
+    "elevation": 426.0,
+    "weather_data_quality": "HIGH",
+    "weather_data_source": "open_meteo_live"
+  },
+  "terrain": {
+    "elevation": 438.0,
+    "slope": 13.03,
+    "erosion_risk_score": 0.0222,
+    "erosion_risk_label": "LOW",
+    "terrain_data_quality": "HIGH"
+  },
+  "erosion": {
+    "risk_score": 0.0222,
+    "risk_label": "LOW",
+    "advisory": "Stable terrain conditions with low immediate erosion risk."
+  },
+  "recommendations": [
+    {
+      "crop": "Cotton",
+      "suitability_score": 0.275,
+      "suitability_percent": 27,
+      "confidence": 0.582,
+      "confidence_percent": 58,
+      "expected_yield_tha": 1.28,
+      "expected_yield_range": "1.3 +/- 1.0 t/ha",
+      "relative_yield_potential_percent": 41,
+      "risk": "Moderate",
+      "risk_breakdown": {
+        "weather_risk": "Moderate",
+        "terrain_risk": "Moderate",
+        "erosion_risk": "Low"
+      },
+      "positive_drivers": [
+        "Season (Kharif) is optimal for Cotton",
+        "Soil pH (7.8) is within ideal range (6.2-8.2)",
+        "High drought tolerance mitigates lower seasonal rainfall (70 mm)"
+      ],
+      "limiting_factors": [
+        "Steep slope (13.0\u00b0) exceeds optimal threshold (10.0\u00b0)",
+        "silt"
+      ],
+      "rank": 1,
+      "suitability": 0.275,
+      "expected_yield": {
+        "estimate": 1.28,
+        "lower": 0.0,
+        "upper": 2.87
+      },
+      "decision_margin": 0.031,
+      "ranking_stability": "Moderate Stability",
+      "drivers": {
+        "positive": [
+          "Season (Kharif) is optimal for Cotton",
+          "Soil pH (7.8) is within ideal range (6.2-8.2)",
+          "High drought tolerance mitigates lower seasonal rainfall (70 mm)"
+        ],
+        "limiting": [
+          "Steep slope (13.0\u00b0) exceeds optimal threshold (10.0\u00b0)",
+          "silt"
+        ]
+      },
+      "counterfactuals": [
+        {
+          "scenario": "Drier Climate (-30% Seasonal Rain)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 22,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under drier climate (-30% seasonal rain) (22% modeled suitability)."
+        },
+        {
+          "scenario": "Wetter Climate (+30% Seasonal Rain)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 21,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under wetter climate (+30% seasonal rain) (21% modeled suitability)."
+        },
+        {
+          "scenario": "Soil Acidification (pH -0.5)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 21,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under soil acidification (ph -0.5) (21% modeled suitability)."
+        },
+        {
+          "scenario": "Alkaline Shift (pH +0.5)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 21,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under alkaline shift (ph +0.5) (21% modeled suitability)."
+        },
+        {
+          "scenario": "Assured Supplemental Irrigation (+200 mm)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 21,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under assured supplemental irrigation (+200 mm) (21% modeled suitability)."
+        }
+      ]
+    },
+    {
+      "crop": "Sesamum",
+      "suitability_score": 0.244,
+      "suitability_percent": 24,
+      "confidence": 0.57,
+      "confidence_percent": 57,
+      "expected_yield_tha": 0.82,
+      "expected_yield_range": "0.8 +/- 0.7 t/ha",
+      "relative_yield_potential_percent": 100,
+      "risk": "Moderate",
+      "risk_breakdown": {
+        "weather_risk": "Moderate",
+        "terrain_risk": "Moderate",
+        "erosion_risk": "Low"
+      },
+      "positive_drivers": [
+        "Season (Kharif) is optimal for Sesamum",
+        "High drought tolerance mitigates lower seasonal rainfall (70 mm)",
+        "Gentle terrain slope (13.0\u00b0) suitable for mechanized cultivation"
+      ],
+      "limiting_factors": [
+        "Soil pH (7.8) is more alkaline than preferred (5.5-7.5)",
+        "Soil pH balance"
+      ],
+      "rank": 2,
+      "suitability": 0.244,
+      "expected_yield": {
+        "estimate": 0.82,
+        "lower": 0.0,
+        "upper": 2.02
+      },
+      "decision_margin": 0.031,
+      "ranking_stability": "Moderate Stability",
+      "drivers": {
+        "positive": [
+          "Season (Kharif) is optimal for Sesamum",
+          "High drought tolerance mitigates lower seasonal rainfall (70 mm)",
+          "Gentle terrain slope (13.0\u00b0) suitable for mechanized cultivation"
+        ],
+        "limiting": [
+          "Soil pH (7.8) is more alkaline than preferred (5.5-7.5)",
+          "Soil pH balance"
+        ]
+      },
+      "counterfactuals": [
+        {
+          "scenario": "Drier Climate (-30% Seasonal Rain)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 22,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under drier climate (-30% seasonal rain) (22% modeled suitability)."
+        },
+        {
+          "scenario": "Wetter Climate (+30% Seasonal Rain)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 21,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under wetter climate (+30% seasonal rain) (21% modeled suitability)."
+        },
+        {
+          "scenario": "Soil Acidification (pH -0.5)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 21,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under soil acidification (ph -0.5) (21% modeled suitability)."
+        },
+        {
+          "scenario": "Alkaline Shift (pH +0.5)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 21,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under alkaline shift (ph +0.5) (21% modeled suitability)."
+        },
+        {
+          "scenario": "Assured Supplemental Irrigation (+200 mm)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 21,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under assured supplemental irrigation (+200 mm) (21% modeled suitability)."
+        }
+      ]
+    },
+    {
+      "crop": "Sorghum",
+      "suitability_score": 0.184,
+      "suitability_percent": 18,
+      "confidence": 0.547,
+      "confidence_percent": 55,
+      "expected_yield_tha": 1.1,
+      "expected_yield_range": "1.1 +/- 0.5 t/ha",
+      "relative_yield_potential_percent": 64,
+      "risk": "Moderate",
+      "risk_breakdown": {
+        "weather_risk": "Moderate",
+        "terrain_risk": "Moderate",
+        "erosion_risk": "Low"
+      },
+      "positive_drivers": [
+        "Season (Kharif) is optimal for Sorghum",
+        "Soil pH (7.8) is within ideal range (5.8-8.2)",
+        "High drought tolerance mitigates lower seasonal rainfall (70 mm)"
+      ],
+      "limiting_factors": [
+        "electrical_conductivity",
+        "Soil potassium reserve"
+      ],
+      "rank": 3,
+      "suitability": 0.184,
+      "expected_yield": {
+        "estimate": 1.1,
+        "lower": 0.24,
+        "upper": 1.96
+      },
+      "decision_margin": 0.031,
+      "ranking_stability": "Moderate Stability",
+      "drivers": {
+        "positive": [
+          "Season (Kharif) is optimal for Sorghum",
+          "Soil pH (7.8) is within ideal range (5.8-8.2)",
+          "High drought tolerance mitigates lower seasonal rainfall (70 mm)"
+        ],
+        "limiting": [
+          "electrical_conductivity",
+          "Soil potassium reserve"
+        ]
+      },
+      "counterfactuals": [
+        {
+          "scenario": "Drier Climate (-30% Seasonal Rain)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 22,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under drier climate (-30% seasonal rain) (22% modeled suitability)."
+        },
+        {
+          "scenario": "Wetter Climate (+30% Seasonal Rain)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 21,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under wetter climate (+30% seasonal rain) (21% modeled suitability)."
+        },
+        {
+          "scenario": "Soil Acidification (pH -0.5)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 21,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under soil acidification (ph -0.5) (21% modeled suitability)."
+        },
+        {
+          "scenario": "Alkaline Shift (pH +0.5)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 21,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under alkaline shift (ph +0.5) (21% modeled suitability)."
+        },
+        {
+          "scenario": "Assured Supplemental Irrigation (+200 mm)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 21,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under assured supplemental irrigation (+200 mm) (21% modeled suitability)."
+        }
+      ]
+    },
+    {
+      "crop": "Pearl Millet",
+      "suitability_score": 0.172,
+      "suitability_percent": 17,
+      "confidence": 0.542,
+      "confidence_percent": 54,
+      "expected_yield_tha": 1.51,
+      "expected_yield_range": "1.5 +/- 2.6 t/ha",
+      "relative_yield_potential_percent": 59,
+      "risk": "Moderate",
+      "risk_breakdown": {
+        "weather_risk": "Moderate",
+        "terrain_risk": "Moderate",
+        "erosion_risk": "Low"
+      },
+      "positive_drivers": [
+        "Season (Kharif) is optimal for Pearl Millet",
+        "Soil pH (7.8) is within ideal range (6.0-8.5)",
+        "High drought tolerance mitigates lower seasonal rainfall (70 mm)"
+      ],
+      "limiting_factors": [
+        "Favorable thermal range",
+        "Available soil nitrogen"
+      ],
+      "rank": 4,
+      "suitability": 0.172,
+      "expected_yield": {
+        "estimate": 1.51,
+        "lower": 0.0,
+        "upper": 5.73
+      },
+      "decision_margin": 0.031,
+      "ranking_stability": "Moderate Stability",
+      "drivers": {
+        "positive": [
+          "Season (Kharif) is optimal for Pearl Millet",
+          "Soil pH (7.8) is within ideal range (6.0-8.5)",
+          "High drought tolerance mitigates lower seasonal rainfall (70 mm)"
+        ],
+        "limiting": [
+          "Favorable thermal range",
+          "Available soil nitrogen"
+        ]
+      },
+      "counterfactuals": [
+        {
+          "scenario": "Drier Climate (-30% Seasonal Rain)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 22,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under drier climate (-30% seasonal rain) (22% modeled suitability)."
+        },
+        {
+          "scenario": "Wetter Climate (+30% Seasonal Rain)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 21,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under wetter climate (+30% seasonal rain) (21% modeled suitability)."
+        },
+        {
+          "scenario": "Soil Acidification (pH -0.5)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 21,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under soil acidification (ph -0.5) (21% modeled suitability)."
+        },
+        {
+          "scenario": "Alkaline Shift (pH +0.5)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 21,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under alkaline shift (ph +0.5) (21% modeled suitability)."
+        },
+        {
+          "scenario": "Assured Supplemental Irrigation (+200 mm)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 21,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under assured supplemental irrigation (+200 mm) (21% modeled suitability)."
+        }
+      ]
+    },
+    {
+      "crop": "Maize",
+      "suitability_score": 0.148,
+      "suitability_percent": 15,
+      "confidence": 0.537,
+      "confidence_percent": 54,
+      "expected_yield_tha": 3.59,
+      "expected_yield_range": "3.6 +/- 2.0 t/ha",
+      "relative_yield_potential_percent": 92,
+      "risk": "Moderate",
+      "risk_breakdown": {
+        "weather_risk": "Moderate",
+        "terrain_risk": "Moderate",
+        "erosion_risk": "Low"
+      },
+      "positive_drivers": [
+        "Season (Kharif) is optimal for Maize",
+        "Gentle terrain slope (13.0\u00b0) suitable for mechanized cultivation",
+        "silt"
+      ],
+      "limiting_factors": [
+        "Soil pH (7.8) is more alkaline than preferred (5.8-7.5)",
+        "Rainfall (70 mm) below preferred minimum (400 mm)"
+      ],
+      "rank": 5,
+      "suitability": 0.148,
+      "expected_yield": {
+        "estimate": 3.59,
+        "lower": 0.35,
+        "upper": 6.83
+      },
+      "decision_margin": 0.031,
+      "ranking_stability": "Moderate Stability",
+      "drivers": {
+        "positive": [
+          "Season (Kharif) is optimal for Maize",
+          "Gentle terrain slope (13.0\u00b0) suitable for mechanized cultivation",
+          "silt"
+        ],
+        "limiting": [
+          "Soil pH (7.8) is more alkaline than preferred (5.8-7.5)",
+          "Rainfall (70 mm) below preferred minimum (400 mm)"
+        ]
+      },
+      "counterfactuals": [
+        {
+          "scenario": "Drier Climate (-30% Seasonal Rain)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 22,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under drier climate (-30% seasonal rain) (22% modeled suitability)."
+        },
+        {
+          "scenario": "Wetter Climate (+30% Seasonal Rain)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 21,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under wetter climate (+30% seasonal rain) (21% modeled suitability)."
+        },
+        {
+          "scenario": "Soil Acidification (pH -0.5)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 21,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under soil acidification (ph -0.5) (21% modeled suitability)."
+        },
+        {
+          "scenario": "Alkaline Shift (pH +0.5)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 21,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under alkaline shift (ph +0.5) (21% modeled suitability)."
+        },
+        {
+          "scenario": "Assured Supplemental Irrigation (+200 mm)",
+          "top_candidate": "Cotton",
+          "simulated_suitability_percent": 21,
+          "is_rank_shift": false,
+          "insight": "Cotton maintains highest suitability under assured supplemental irrigation (+200 mm) (21% modeled suitability)."
+        }
+      ]
+    }
+  ],
+  "primary_recommendation": {
+    "crop": "Cotton",
+    "suitability_score": 0.275,
+    "suitability_percent": 27,
+    "confidence": 0.582,
+    "confidence_percent": 58,
+    "expected_yield_tha": 1.28,
+    "expected_yield_range": "1.3 +/- 1.0 t/ha",
+    "relative_yield_potential_percent": 41,
+    "risk": "Moderate",
+    "risk_breakdown": {
+      "weather_risk": "Moderate",
+      "terrain_risk": "Moderate",
+      "erosion_risk": "Low"
+    },
+    "positive_drivers": [
+      "Season (Kharif) is optimal for Cotton",
+      "Soil pH (7.8) is within ideal range (6.2-8.2)",
+      "High drought tolerance mitigates lower seasonal rainfall (70 mm)"
+    ],
+    "limiting_factors": [
+      "Steep slope (13.0\u00b0) exceeds optimal threshold (10.0\u00b0)",
+      "silt"
+    ],
+    "rank": 1,
+    "suitability": 0.275,
+    "expected_yield": {
+      "estimate": 1.28,
+      "lower": 0.0,
+      "upper": 2.87
+    },
+    "decision_margin": 0.031,
+    "ranking_stability": "Moderate Stability",
+    "drivers": {
+      "positive": [
+        "Season (Kharif) is optimal for Cotton",
+        "Soil pH (7.8) is within ideal range (6.2-8.2)",
+        "High drought tolerance mitigates lower seasonal rainfall (70 mm)"
+      ],
+      "limiting": [
+        "Steep slope (13.0\u00b0) exceeds optimal threshold (10.0\u00b0)",
+        "silt"
+      ]
+    },
+    "counterfactuals": [
+      {
+        "scenario": "Drier Climate (-30% Seasonal Rain)",
+        "top_candidate": "Cotton",
+        "simulated_suitability_percent": 22,
+        "is_rank_shift": false,
+        "insight": "Cotton maintains highest suitability under drier climate (-30% seasonal rain) (22% modeled suitability)."
+      },
+      {
+        "scenario": "Wetter Climate (+30% Seasonal Rain)",
+        "top_candidate": "Cotton",
+        "simulated_suitability_percent": 21,
+        "is_rank_shift": false,
+        "insight": "Cotton maintains highest suitability under wetter climate (+30% seasonal rain) (21% modeled suitability)."
+      },
+      {
+        "scenario": "Soil Acidification (pH -0.5)",
+        "top_candidate": "Cotton",
+        "simulated_suitability_percent": 21,
+        "is_rank_shift": false,
+        "insight": "Cotton maintains highest suitability under soil acidification (ph -0.5) (21% modeled suitability)."
+      },
+      {
+        "scenario": "Alkaline Shift (pH +0.5)",
+        "top_candidate": "Cotton",
+        "simulated_suitability_percent": 21,
+        "is_rank_shift": false,
+        "insight": "Cotton maintains highest suitability under alkaline shift (ph +0.5) (21% modeled suitability)."
+      },
+      {
+        "scenario": "Assured Supplemental Irrigation (+200 mm)",
+        "top_candidate": "Cotton",
+        "simulated_suitability_percent": 21,
+        "is_rank_shift": false,
+        "insight": "Cotton maintains highest suitability under assured supplemental irrigation (+200 mm) (21% modeled suitability)."
+      }
+    ]
+  },
+  "uncertainty": {
+    "decision_margin": 0.031,
+    "ranking_stability": "Moderate Stability",
+    "recommendation_uncertainty": 0.84,
+    "interpretation": "Cotton is favored, but Sesamum remains a viable agronomic alternative (narrow 3.1% margin)."
+  },
+  "risk": {
+    "composite_risk": "Moderate",
+    "weather_risk": "Moderate",
+    "terrain_risk": "Moderate",
+    "erosion_risk": "Low",
+    "forecast_rainfall_anomaly_mm": 1.0,
+    "forecast_temperature_anomaly_c": 0.0,
+    "water_stress_index": 0.53,
+    "rainfall_shock": "NORMAL",
+    "advisory": "Stable terrain conditions with low immediate erosion risk."
+  },
+  "drivers": {
+    "model_drivers": [
+      "Season (Kharif) is optimal for Cotton",
+      "Soil pH (7.8) is within ideal range (6.2-8.2)",
+      "High drought tolerance mitigates lower seasonal rainfall (70 mm)"
+    ],
+    "agronomic_drivers": [
+      "Soil pH (7.8) in physiological growth zone",
+      "Thermal regime (25.8\u00b0C) matches vegetative needs",
+      "Rootzone moisture (0.17 m3/m3) supports crop water demand"
+    ],
+    "risk_drivers": [
+      "Steep slope (13.0\u00b0) exceeds optimal threshold (10.0\u00b0)",
+      "silt",
+      "Forecast rain anomaly: +1.0 mm over 7 days",
+      "Terrain slope: 13.0\u00b0 with LOW erosion vulnerability"
+    ]
+  },
+  "counterfactuals": [
+    {
+      "scenario": "Drier Climate (-30% Seasonal Rain)",
+      "top_candidate": "Cotton",
+      "simulated_suitability_percent": 22,
+      "is_rank_shift": false,
+      "insight": "Cotton maintains highest suitability under drier climate (-30% seasonal rain) (22% modeled suitability)."
+    },
+    {
+      "scenario": "Wetter Climate (+30% Seasonal Rain)",
+      "top_candidate": "Cotton",
+      "simulated_suitability_percent": 21,
+      "is_rank_shift": false,
+      "insight": "Cotton maintains highest suitability under wetter climate (+30% seasonal rain) (21% modeled suitability)."
+    },
+    {
+      "scenario": "Soil Acidification (pH -0.5)",
+      "top_candidate": "Cotton",
+      "simulated_suitability_percent": 21,
+      "is_rank_shift": false,
+      "insight": "Cotton maintains highest suitability under soil acidification (ph -0.5) (21% modeled suitability)."
+    },
+    {
+      "scenario": "Alkaline Shift (pH +0.5)",
+      "top_candidate": "Cotton",
+      "simulated_suitability_percent": 21,
+      "is_rank_shift": false,
+      "insight": "Cotton maintains highest suitability under alkaline shift (ph +0.5) (21% modeled suitability)."
+    },
+    {
+      "scenario": "Assured Supplemental Irrigation (+200 mm)",
+      "top_candidate": "Cotton",
+      "simulated_suitability_percent": 21,
+      "is_rank_shift": false,
+      "insight": "Cotton maintains highest suitability under assured supplemental irrigation (+200 mm) (21% modeled suitability)."
+    }
+  ],
+  "explanation": {
+    "summary": "Cotton is the highest-ranked candidate under available data with 27% suitability and 58% confidence for the Kharif season. The model estimates an expected yield of 1.3 +/- 1.0 t/ha, reflecting favorable agro-climatic indicators: Season (Kharif) is optimal for Cotton, Soil pH (7.8) is within ideal range (6.2-8.2). Environmental risk is rated as Moderate due to low erosion context and 7-day forecast precipitation (6.2 mm). Alternatives include Sesamum, Sorghum, Pearl Millet.",
+    "insight_mode": "local",
+    "insight_status": "Missing GROQ API key. Set GROQ_API_KEY or provide a custom key."
+  },
+  "explanations": {
+    "summary": "Cotton is the highest-ranked candidate under available data with 27% suitability and 58% confidence for the Kharif season. The model estimates an expected yield of 1.3 +/- 1.0 t/ha, reflecting favorable agro-climatic indicators: Season (Kharif) is optimal for Cotton, Soil pH (7.8) is within ideal range (6.2-8.2). Environmental risk is rated as Moderate due to low erosion context and 7-day forecast precipitation (6.2 mm). Alternatives include Sesamum, Sorghum, Pearl Millet.",
+    "llm_narrative": "Cotton is the highest-ranked candidate under available data with 27% suitability and 58% confidence for the Kharif season. The model estimates an expected yield of 1.3 +/- 1.0 t/ha, reflecting favorable agro-climatic indicators: Season (Kharif) is optimal for Cotton, Soil pH (7.8) is within ideal range (6.2-8.2). Environmental risk is rated as Moderate due to low erosion context and 7-day forecast precipitation (6.2 mm). Alternatives include Sesamum, Sorghum, Pearl Millet.",
+    "insight_mode": "local",
+    "insight_status": "Missing GROQ API key. Set GROQ_API_KEY or provide a custom key."
+  },
+  "data_quality": {
+    "soil_data_quality": "MODERATE",
+    "weather_data_quality": "HIGH",
+    "terrain_data_quality": "HIGH",
+    "overall_data_quality": "HIGH"
+  },
+  "limitations": [
+    "Suitability scores represent model and ecological compatibility, NOT guaranteed crop success or yield.",
+    "Expected yield is an empirical model estimate with documented variance, sensitive to management and micro-climate.",
+    "Micro-irrigation, fertilizer application, and local pest management are essential operational determinants."
+  ]
+}
