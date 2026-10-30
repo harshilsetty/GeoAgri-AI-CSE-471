@@ -120,3 +120,4 @@ A test image inference was verified against the updated bridge:
 1. **OBB vs. Semantic Segmentation:** The archaeological computer vision dataset is labeled with oriented bounding boxes. While bounding boxes effectively localize rotated ancient structures and ruins, fine-grained pixel semantic boundaries (e.g., exact masonry mortar boundaries) require dense pixel mask annotation.
 2. **Spatial Feature Density Heatmap:** In aerial image tiles without any detected objects, no synthetic heat is fabricated. The dashboard displays an honest disclaimer explaining that no features were detected.
 3. **Map Heatmap Interpolation:** The geospatial map heatmap reflects genuine sampled risk points and area scans. Unsampled regions are not artificially filled with ungrounded random numbers.
+
