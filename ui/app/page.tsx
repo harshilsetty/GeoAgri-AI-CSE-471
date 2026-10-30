@@ -45,6 +45,16 @@ type PredictionResult = {
     combined: string;
     heatmap: string;
   };
+  segmentationInfo?: {
+    available: boolean;
+    type: string;
+    notice: string;
+  };
+  heatmapInfo?: {
+    available: boolean;
+    type: string;
+    notice: string;
+  };
 };
 
 type NotificationItem = {
@@ -705,19 +715,45 @@ function PageContent() {
 
   const visualTiles = useMemo<VisualTile[]>(() => {
     if (result?.images) {
+      const isSegAvailable = Boolean(result.segmentationInfo?.available);
+      const isHeatAvailable = Boolean(result.heatmapInfo?.available);
+
       return [
-        { title: "Original Terrain", src: result.images.original },
-        { title: "Erosion Detection", src: result.images.detection },
-        { title: "Segmentation Map", src: result.images.segmentation },
-        { title: "Heatmap Overlay", src: result.images.heatmap }
+        {
+          title: "Original Terrain",
+          src: result.images.original,
+          badge: "Source Tile",
+        },
+        {
+          title: "Erosion Detection",
+          src: result.images.detection,
+          badge: "YOLO OBB",
+        },
+        {
+          title: isSegAvailable ? "Segmentation Map" : "OBB Polygon Footprints",
+          src: result.images.segmentation,
+          badge: isSegAvailable ? "DeepLabV3+" : "OBB Detected",
+          isObbMode: !isSegAvailable,
+          notice: !isSegAvailable
+            ? "Pixel-level segmentation is currently unavailable. The active computer vision model supports oriented object detection."
+            : undefined,
+        },
+        {
+          title: "Heatmap Overlay",
+          src: result.images.heatmap,
+          badge: isHeatAvailable ? "Feature Density" : "No Density",
+          notice: !isHeatAvailable
+            ? "No spatial feature density generated: zero detections found in this tile."
+            : "Spatial feature density heatmap generated from detected archaeological & terrain features.",
+        },
       ];
     }
 
     return [
       { title: "Original Terrain", src: uploadPreviewUrl || "", accent: "from-slate-500/40 via-slate-300/10 to-slate-700/50" },
       { title: "Erosion Detection", src: uploadPreviewUrl || "", accent: "from-rose-500/35 via-red-300/10 to-slate-800/60" },
-      { title: "Segmentation Map", src: uploadPreviewUrl || "", accent: "from-orange-400/30 via-amber-200/10 to-slate-800/60" },
-      { title: "Heatmap Overlay", src: uploadPreviewUrl || "", accent: "from-red-500/45 via-red-400/15 to-black/70" }
+      { title: "Segmentation / OBB", src: uploadPreviewUrl || "", accent: "from-orange-400/30 via-amber-200/10 to-slate-800/60" },
+      { title: "Heatmap Overlay", src: uploadPreviewUrl || "", accent: "from-red-500/45 via-red-400/15 to-black/70" },
     ];
   }, [result, uploadPreviewUrl]);
 
@@ -1435,6 +1471,14 @@ function PageContent() {
                   <MapPicker
                     lat={Number(lat) || 0}
                     lon={Number(lon) || 0}
+                    currentPointRisk={
+                      result
+                        ? {
+                            probability: result.probability,
+                            riskLabel: result.riskLabel,
+                          }
+                        : null
+                    }
                     onChange={(nextLat, nextLon) => {
                       setLat(nextLat.toFixed(6));
                       setLon(nextLon.toFixed(6));
@@ -1608,6 +1652,16 @@ function PageContent() {
                       showRadiusArea={livePointSampling && terrainScanMode === "radius"}
                       polygonVertices={terrainScanMode === "polygon4" ? terrainPolygonVertices : []}
                       sampledPoints={terrainOverlayPoints}
+                      riskPoints={terrainRiskPoints}
+                      currentPointRisk={
+                        result
+                          ? {
+                              probability: result.probability,
+                              riskLabel: result.riskLabel,
+                            }
+                          : null
+                      }
+                      mapHeightClass="h-[380px]"
                       onChange={onTerrainMapSelect}
                     />
                   </div>

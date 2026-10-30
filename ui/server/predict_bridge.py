@@ -688,7 +688,7 @@ def predict(
             )
 
     if torch is None or SEG_MODEL is None:
-        mask = np.zeros((image.shape[0], image.shape[1]), dtype=np.uint8)
+        mask = None
     else:
         resized = cv2.resize(image, (512, 512))
         tensor = torch.tensor(resized.transpose(2, 0, 1) / 255.0, dtype=torch.float32).unsqueeze(0).to(DEVICE)
@@ -699,20 +699,107 @@ def predict(
 
         mask = cv2.resize(mask.astype(np.uint8), (image.shape[1], image.shape[0]))
 
-    seg_vis = image.copy()
-    for class_id, color in SEG_COLORS.items():
-        if class_id == 0:
-            continue
-        class_name = CLASS_ID_TO_NAME[class_id]
-        if class_name and class_visibility.get(class_name, True):
-            seg_vis[mask == class_id] = color
+    if mask is not None:
+        seg_vis = image.copy()
+        for class_id, color in SEG_COLORS.items():
+            if class_id == 0:
+                continue
+            class_name = CLASS_ID_TO_NAME.get(class_id)
+            if class_name and class_visibility.get(class_name, True):
+                seg_vis[mask == class_id] = color
+        seg_overlay = cv2.addWeighted(image, 0.85, seg_vis, 0.15, 0)
+    else:
+        # Honest OBB/detection visualization with filled polygon footprint
+        obb_fill_overlay = image.copy()
+        has_detection_any = False
+        if has_obb:
+            obb = yolo_results[0].obb
+            for i in range(len(obb)):
+                cls = int(obb.cls[i])
+                conf = float(obb.conf[i])
+                label = YOLO_MODEL.names.get(cls, str(cls))
+                if not class_visibility.get(label, True):
+                    continue
+                color = CLASS_COLORS.get(label, (255, 255, 255))
+                pts = obb.xyxyxyxy[i].cpu().numpy().astype(np.int32)
+                cv2.fillPoly(obb_fill_overlay, [pts], color=color)
+                cv2.polylines(obb_fill_overlay, [pts], isClosed=True, color=color, thickness=2)
+                x1, y1 = pts[0]
+                cv2.putText(
+                    obb_fill_overlay,
+                    f"{label} {conf:.2f}",
+                    (int(x1), max(16, int(y1) - 8)),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.45,
+                    (255, 255, 255),
+                    1,
+                )
+                has_detection_any = True
+        elif detection_boxes:
+            for box in detection_boxes:
+                x1, y1, x2, y2 = map(int, box.xyxy[0])
+                cls = int(box.cls[0])
+                conf = float(box.conf[0])
+                label = YOLO_MODEL.names[cls]
+                if not class_visibility.get(label, True):
+                    continue
+                color = CLASS_COLORS.get(label, (255, 255, 255))
+                cv2.rectangle(obb_fill_overlay, (x1, y1), (x2, y2), color, -1)
+                cv2.rectangle(obb_fill_overlay, (x1, y1), (x2, y2), color, 2)
+                cv2.putText(
+                    obb_fill_overlay,
+                    f"{label} {conf:.2f}",
+                    (x1, max(16, y1 - 8)),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.45,
+                    (255, 255, 255),
+                    1,
+                )
+                has_detection_any = True
 
-    seg_overlay = cv2.addWeighted(image, 0.85, seg_vis, 0.15, 0)
+        if has_detection_any:
+            seg_overlay = cv2.addWeighted(image, 0.65, obb_fill_overlay, 0.35, 0)
+        else:
+            seg_overlay = image.copy()
 
-    heatmap = np.zeros_like(image)
-    heatmap[mask == 5] = [0, 0, 255]
-    heatmap[mask == 3] = [255, 0, 0]
-    heat_overlay = cv2.addWeighted(image, 0.7, heatmap, 0.3, 0)
+    # Heatmap generation: Feature density heatmap from genuine detections
+    heat_overlay = image.copy()
+    has_heat_features = False
+    density_map = np.zeros((h, w), dtype=np.float32)
+
+    if has_obb:
+        obb = yolo_results[0].obb
+        for i in range(len(obb)):
+            cls = int(obb.cls[i])
+            label = YOLO_MODEL.names.get(cls, str(cls))
+            if not class_visibility.get(label, True):
+                continue
+            pts = obb.xyxyxyxy[i].cpu().numpy().astype(np.float32)
+            cx, cy = np.mean(pts, axis=0)
+            area = float(cv2.contourArea(pts.astype(np.int32)))
+            radius = int(max(24, min(120, np.sqrt(max(1.0, area)) * 0.9)))
+            weight = 255.0 * float(obb.conf[i])
+            cv2.circle(density_map, (int(cx), int(cy)), radius, weight, -1)
+            has_heat_features = True
+    elif detection_boxes:
+        for box in detection_boxes:
+            cls = int(box.cls[0])
+            label = YOLO_MODEL.names[cls]
+            if not class_visibility.get(label, True):
+                continue
+            x1, y1, x2, y2 = map(int, box.xyxy[0])
+            cx = (x1 + x2) // 2
+            cy = (y1 + y2) // 2
+            radius = int(max(24, min(120, np.sqrt(max(1.0, (x2 - x1) * (y2 - y1))) * 0.9)))
+            weight = 255.0 * float(box.conf[0])
+            cv2.circle(density_map, (cx, cy), radius, weight, -1)
+            has_heat_features = True
+
+    if has_heat_features:
+        blurred_density = cv2.GaussianBlur(density_map, (0, 0), sigmaX=35, sigmaY=35)
+        norm_density = cv2.normalize(blurred_density, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+        color_heatmap = cv2.applyColorMap(norm_density, cv2.COLORMAP_JET)
+        heat_overlay = cv2.addWeighted(image, 0.58, color_heatmap, 0.42, 0)
 
     combined = seg_overlay.copy()
     if has_obb:
@@ -756,11 +843,39 @@ def predict(
                 2,
             )
 
-    total_pixels = mask.size
-    boulders_ratio = float(np.sum(mask == 1) / total_pixels)
-    vegetation_ratio = float(np.sum(mask == 5) / total_pixels)
-    ruins_ratio = float(np.sum(mask == 3) / total_pixels)
-    structures_ratio = float(np.sum(mask == 4) / total_pixels)
+    if mask is not None and np.sum(mask) > 0:
+        total_pixels = mask.size
+        boulders_ratio = float(np.sum(mask == 1) / total_pixels)
+        vegetation_ratio = float(np.sum(mask == 5) / total_pixels)
+        ruins_ratio = float(np.sum(mask == 3) / total_pixels)
+        structures_ratio = float(np.sum(mask == 4) / total_pixels)
+    else:
+        total_pixels = float(h * w)
+        class_areas = {"boulders": 0.0, "vegetation": 0.0, "ruins": 0.0, "structures": 0.0}
+        if has_obb:
+            obb = yolo_results[0].obb
+            for i in range(len(obb)):
+                cls = int(obb.cls[i])
+                label = YOLO_MODEL.names.get(cls, str(cls))
+                if label in class_areas:
+                    pts = obb.xyxyxyxy[i].cpu().numpy().astype(np.int32)
+                    class_areas[label] += float(cv2.contourArea(pts))
+        elif detection_boxes:
+            for box in detection_boxes:
+                cls = int(box.cls[0])
+                label = YOLO_MODEL.names[cls]
+                if label in class_areas:
+                    x1, y1, x2, y2 = map(int, box.xyxy[0])
+                    class_areas[label] += float((x2 - x1) * (y2 - y1))
+
+        boulders_ratio = float(min(1.0, class_areas["boulders"] / total_pixels))
+        vegetation_ratio = (
+            float(min(1.0, class_areas["vegetation"] / total_pixels))
+            if class_areas["vegetation"] > 0
+            else _FEATURE_PRIORS["vegetation"]
+        )
+        ruins_ratio = float(min(1.0, class_areas["ruins"] / total_pixels))
+        structures_ratio = float(min(1.0, class_areas["structures"] / total_pixels))
 
     # Extract real geographic features using the new geo_features module
     features_dict = geo_features.extract_full_features(
@@ -846,6 +961,16 @@ def predict(
             "segmentation": _image_to_data_url(seg_overlay),
             "combined": _image_to_data_url(combined),
             "heatmap": _image_to_data_url(heat_overlay),
+        },
+        "segmentationInfo": {
+            "available": SEG_MODEL is not None,
+            "type": "OBB Detection" if SEG_MODEL is None else "Semantic Segmentation",
+            "notice": "Pixel-level segmentation is currently unavailable. The active computer vision model supports oriented object detection." if SEG_MODEL is None else "Pixel-level segmentation active.",
+        },
+        "heatmapInfo": {
+            "available": has_heat_features,
+            "type": "Feature Density",
+            "notice": "Spatial feature density heatmap generated from detected archaeological & terrain features." if has_heat_features else "Spatial feature density unavailable: No terrain features detected in this tile.",
         },
     }
 
